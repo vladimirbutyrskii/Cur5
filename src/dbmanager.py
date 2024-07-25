@@ -39,8 +39,8 @@ class DBManager(DataBase):
         self.password = password
         self.params = dict(host=self.host, database=self.database, port=self.port, user=self.user,
                            password=self.password)
-        conn1 = psycopg2.connect(host=self.host, database='cw_5_f', port=self.port, user=self.user,
-                                 password=self.password)
+        #conn1 = psycopg2.connect(host=self.host, database=TARGET_DB, port=self.port, user=self.user,
+        #                         password=self.password)
 
     def __enter__(self):
         """Создает соединение с БД"""

@@ -77,5 +77,5 @@ def data_fill(database_name: str, params: dict) -> None:
 
         conn.commit()
         cur.close()
-    print("База данных создана, данные в БД загружены.")
+    print("... данные в БД загружены.")
     conn.close()
