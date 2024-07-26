@@ -3,16 +3,30 @@ from config import config
 from src.database_create import create_db
 from src.fill_db import data_fill
 from src.settings import TARGET_DB
+import psycopg2
 
-def main(db_instance: DBManager) -> None:    # db_instance: DBManager
+
+def main(db_instance: DBManager) -> None:  # db_instance: DBManager
     """
     Управление работой всех функций проекта
     :param db_instance:
     :return:
     """
 
+    con = psycopg2.connect(user='postgres', password='12345', port=5432)
+    # Без указания имени БД, соединение будет с базой postgres
+
+    dbname = TARGET_DB
     params = config()
-    print(params)
+
+    # Проверка наличия БД
+    cur = con.cursor()
+    cur.execute("SELECT 1 as a FROM pg_database WHERE datname='{dbname}'".format(dbname=dbname))
+    if type(cur.fetchone()) != tuple:
+        print(f"\nТребуемая БД отсутствует, поэтому автоматически запускается ее формирование... ")
+        create_db(TARGET_DB, params)
+        data_fill(TARGET_DB, params)
+
     print(f"\nВыбрать один из пунктов меню:")
     user_answer = 0
 
@@ -62,8 +76,5 @@ def main(db_instance: DBManager) -> None:    # db_instance: DBManager
 
 if __name__ == '__main__':
     db_conn = DBManager()
-    #with db_conn:
+    # with db_conn:
     main(db_conn)
-
-
-
