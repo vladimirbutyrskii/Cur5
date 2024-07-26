@@ -1,7 +1,9 @@
 import psycopg2
+
 """from utils import get_id_employees
 from utils import get_vacancies
 from settings import COMPANY_NAMES, EMPLOYEE_API, VACANCIES_API"""
+
 
 def create_db(database_name: str, params: dict) -> None:
     """
@@ -10,24 +12,28 @@ def create_db(database_name: str, params: dict) -> None:
     :return:
     """
 
+    # Создание БД
 
-    # Создание БД CW_5
-    # database_name = 'CW_5'
-    conn = psycopg2.connect(dbname='postgres', **params)
+    conn = psycopg2.connect(dbname="postgres", user="postgres", password="12345", host="127.0.0.1")
+    cursor = conn.cursor()
+
     conn.autocommit = True
-    cur = conn.cursor()
+    # команда для создания базы данных
+    sql = f"CREATE DATABASE {database_name}"
+    cursor.execute(f"DROP DATABASE IF EXISTS {database_name}")
 
-    cur.execute(f"DROP DATABASE IF EXISTS {database_name}")  # DROP DATABASE IF EXISTS {database_name}
-    cur.execute(f"CREATE DATABASE {database_name}")
+    # выполняем код sql
+    cursor.execute(sql)
+    print("База данных успешно создана...")
 
-    cur.close()
+    cursor.close()
     conn.commit()
     conn.close()
 
     # with psycopg2.connect(database_name, **params) as connection:  # with psycopg2.connect(**params) as connection:
     conn = psycopg2.connect(dbname=database_name, **params)
     conn.autocommit = True
-    #cur = conn.cursor()
+    # cur = conn.cursor()
 
     with conn.cursor() as cursor:
         #  Удаляем старые таблицы, если ранее существовали.
@@ -76,5 +82,3 @@ def create_db(database_name: str, params: dict) -> None:
         cursor.close()
         conn.commit()
         conn.close()
-
-

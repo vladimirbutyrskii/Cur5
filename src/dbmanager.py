@@ -39,8 +39,8 @@ class DBManager(DataBase):
         self.password = password
         self.params = dict(host=self.host, database=self.database, port=self.port, user=self.user,
                            password=self.password)
-        conn1 = psycopg2.connect(host=self.host, database='cw_5_f', port=self.port, user=self.user,
-                                 password=self.password)
+        #conn1 = psycopg2.connect(host=self.host, database=TARGET_DB, port=self.port, user=self.user,
+        #                         password=self.password)
 
     def __enter__(self):
         """Создает соединение с БД"""
@@ -60,6 +60,8 @@ class DBManager(DataBase):
 
     def get_companies_and_vacancies_count(self):
         """Формирует и выдает на консоль список всех компаний и количество вакансий у каждой компании."""
+
+
 
         conn = psycopg2.connect(host=self.host, database=TARGET_DB, port=self.port, user=self.user,
                                 password=self.password)
